@@ -1,1 +1,0 @@
-{"locationName": "Cohen B Cluster (1.40)", "description": "Cohen B Cluster (1.40)", "locationId": 0, "campusID": "{'createdBy': 'Data Services','createDate': '15/08/2024 13:14:09','FDCM_index': 'bb356f29e557e952','FDCM_subIndex': 'bb356f29e557e952' }", "FDCM_index": "bb356f29e557e952", "FDCM_subIndex": "8735a4b5030693c4"}
