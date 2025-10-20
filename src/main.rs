@@ -17,19 +17,16 @@ const DATA: &str =
 fn main() {
     println!(
         "{}",
-        "Welcome to LeedsUniCheckIn!"
-            .cyan()
-            .bold()
-            .italic()
-            .underline()
+        "Welcome to LeedsUniCheckIn!".cyan().bold().underline()
     );
 
     println!(
         "{}",
-        "Just select the room and it will generate a QR code for you to scan using the UniLeeds app.".cyan().bold().italic()
+        "Just select the room and it will generate a QR code for you to scan using the UniLeeds app.".cyan().bold()
     );
 
     let selection = FuzzySelect::with_theme(&ColorfulTheme::default())
+        .default(0)
         .items(&ROOMS[..])
         .interact()
         .unwrap();
