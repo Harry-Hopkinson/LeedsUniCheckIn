@@ -22,6 +22,9 @@ fn main() {
         .interact()
         .unwrap();
 
+    let room = ROOMS[selection];
+    println!("You have selected room: {}", room.italic().bold().blue());
+
     let code = QrCode::new(DATA).expect("Failed to create QR code");
     let image = code.render::<Luma<u8>>().build();
 
@@ -30,5 +33,8 @@ fn main() {
         .save(&output_path)
         .expect("Failed to save QR code image");
 
-    println!("QR code saved to {:?}", output_path.yellow());
+    println!(
+        "QR code saved to {:?}",
+        output_path.italic().bold().yellow()
+    );
 }
