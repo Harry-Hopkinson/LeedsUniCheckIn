@@ -15,15 +15,27 @@ const DATA: &str =
     r#"{"locationName": "Conference Auditorium 1", "description": "Conference Auditorium 1"}"#;
 
 fn main() {
+    println!(
+        "{}",
+        "Welcome to LeedsUniCheckIn!"
+            .cyan()
+            .bold()
+            .italic()
+            .underline()
+    );
+
+    println!(
+        "{}",
+        "Just select the room and it will generate a QR code for you to scan using the UniLeeds app.".cyan().bold().italic()
+    );
+
     let selection = FuzzySelect::with_theme(&ColorfulTheme::default())
-        .with_prompt("Pick what room to check in to")
-        .default(0)
         .items(&ROOMS[..])
         .interact()
         .unwrap();
 
     let room = ROOMS[selection];
-    println!("You have selected room: {}", room.italic().bold().blue());
+    println!("You have selected room: {}", room.blue().italic().bold());
 
     let code = QrCode::new(DATA).expect("Failed to create QR code");
     let image = code.render::<Luma<u8>>().build();
@@ -35,6 +47,6 @@ fn main() {
 
     println!(
         "QR code saved to {:?}",
-        output_path.italic().bold().yellow()
+        output_path.yellow().italic().bold()
     );
 }
