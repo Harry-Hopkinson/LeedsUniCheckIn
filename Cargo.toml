@@ -4,5 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+dialoguer = { version = "0.12.0", features = ["fuzzy-select"] }
 image = "0.25.8"
+owo-colors = "4.2.3"
 qrcode = "0.14.1"
