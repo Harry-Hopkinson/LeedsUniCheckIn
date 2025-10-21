@@ -1,0 +1,55 @@
+name: Release Build and Upload
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build the project (Release)
+        run: cargo build --release
+
+      - name: Strip symbols from executable (Linux/macOS)
+        if: runner.os != 'Windows'
+        run: strip target/release/LeedsUniCheckIn
+
+      - name: Strip symbols from executable (Windows)
+        if: runner.os == 'Windows'
+        run: strip target\\release\\LeedsUniCheckIn.exe
+
+      - name: Prepare release folder
+        run: |
+          mkdir -p release
+          cp src/rooms.txt release/ || copy src\\rooms.txt release\\
+
+      - name: Create archive
+        run: |
+          if [ "${{ runner.os }}" = "Windows" ]; then
+            powershell Compress-Archive -Path target\\release\\LeedsUniCheckIn.exe,release\\rooms.txt -DestinationPath LeedsUniCheckIn-windows.zip
+          elif [ "${{ runner.os }}" = "macOS" ]; then
+            zip -j LeedsUniCheckIn-macos.zip target/release/LeedsUniCheckIn release/rooms.txt
+          else
+            zip -j LeedsUniCheckIn-linux.zip target/release/LeedsUniCheckIn release/rooms.txt
+          fi
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: LeedsUniCheckIn-${{ runner.os }}
+          path: |
+            LeedsUniCheckIn-*.zip
