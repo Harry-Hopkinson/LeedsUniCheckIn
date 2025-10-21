@@ -9,10 +9,13 @@ const ROOMS: &[&str] = &[
     "11-14 Blenheim Terrace SR (1.01)",
     "11-14 Blenheim Terrace SR (1.17)",
     "11-14 Blenheim Terrace SR (G.02)",
+    "11-14 Blenheim Terrace SR (G.03)",
+    "11-14 Blenheim Terrace SR (G.06)",
+    "11-14 Blenheim Terrace SR (G.08)",
+    "11-14 Blenheim Terrace SR (G.12)",
 ];
 
-const DATA: &str =
-    r#"{"locationName": "Conference Auditorium 1", "description": "Conference Auditorium 1"}"#;
+const DATA: &str = r#"{"locationName": "Worsley SR (8.49n)", "description": "Worsley SR (8.49n)"}"#;
 
 fn main() {
     println!(
@@ -46,4 +49,6 @@ fn main() {
         "QR code saved to {:?}",
         output_path.yellow().italic().bold()
     );
+
+    println!("{}", "Have fun at your lesson 😉".black().bold());
 }
