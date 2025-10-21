@@ -24,32 +24,33 @@ jobs:
       - name: Build the project (Release)
         run: cargo build --release
 
-      - name: Strip symbols from executable (Linux/macOS)
+      - name: Strip symbols (Linux/macOS)
         if: runner.os != 'Windows'
         run: strip target/release/LeedsUniCheckIn
 
-      - name: Strip symbols from executable (Windows)
+      - name: Strip symbols (Windows)
         if: runner.os == 'Windows'
         run: strip target\\release\\LeedsUniCheckIn.exe
 
       - name: Prepare release folder
         run: |
           mkdir -p release
-          cp src/rooms.txt release/ || copy src\\rooms.txt release\\
+          cp src/rooms.txt release/ || echo "rooms.txt copy skipped"
 
-      - name: Create archive
+      - name: Create archive (Linux/macOS)
+        if: runner.os != 'Windows'
         run: |
-          if [ "${{ runner.os }}" = "Windows" ]; then
-            powershell Compress-Archive -Path target\\release\\LeedsUniCheckIn.exe,release\\rooms.txt -DestinationPath LeedsUniCheckIn-windows.zip
-          elif [ "${{ runner.os }}" = "macOS" ]; then
-            zip -j LeedsUniCheckIn-macos.zip target/release/LeedsUniCheckIn release/rooms.txt
-          else
-            zip -j LeedsUniCheckIn-linux.zip target/release/LeedsUniCheckIn release/rooms.txt
-          fi
+          zip -j LeedsUniCheckIn-${{ runner.os == 'macOS' && 'macos' || 'linux' }}.zip \
+            target/release/LeedsUniCheckIn release/rooms.txt
+
+      - name: Create archive (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Compress-Archive -Path "target\release\LeedsUniCheckIn.exe","src\rooms.txt" -DestinationPath "LeedsUniCheckIn-windows.zip"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: LeedsUniCheckIn-${{ runner.os }}
-          path: |
-            LeedsUniCheckIn-*.zip
+          path: LeedsUniCheckIn-*.zip
