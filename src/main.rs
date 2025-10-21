@@ -55,5 +55,5 @@ fn main() {
         output_path.yellow().italic().bold()
     );
 
-    println!("{}", "Have fun at your lesson 😉".black().bold());
+    println!("{}", "Have fun at your lesson 😉".red().bold());
 }
