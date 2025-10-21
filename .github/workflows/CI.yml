@@ -52,5 +52,5 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: LeedsUniCheckIn-${{ runner.os }}
+          name: ${{ runner.os }}
           path: LeedsUniCheckIn-*.zip
