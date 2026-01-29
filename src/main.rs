@@ -45,7 +45,7 @@ fn main() {
     let code = QrCode::new(data).expect("Failed to create QR code");
     let image = code.render::<Luma<u8>>().build();
 
-    let output_path = get_exe_path().join("qrcode.png");
+    let output_path = get_exe_path().join(format!("{}.png", room.replace(" ", "_")));
     image
         .save(&output_path)
         .expect("Failed to save QR code image");
