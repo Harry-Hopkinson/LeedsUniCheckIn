@@ -30,9 +30,10 @@ fn main() {
 
     let selection = FuzzySelect::with_theme(&ColorfulTheme::default())
         .default(0)
+        .with_prompt("Select your room")
         .items(&load_rooms())
         .interact()
-        .unwrap();
+        .expect("Failed to read user input");
 
     let room = load_rooms()[selection];
     println!("You have selected room: {}", room.blue().italic().bold());
